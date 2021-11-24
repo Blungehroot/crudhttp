@@ -7,14 +7,17 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "users", schema = "public")
+@Table(name = "files", schema = "public")
 @Data
 @RequiredArgsConstructor
-public class User implements Serializable {
+public class File implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column
-    private String name;
+    private String fileName;
+
+    @Column
+    private String fileLink;
 }

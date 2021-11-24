@@ -1,48 +1,43 @@
-CREATE
-DATABASE crudhibernate;
+CREATE DATABASE IF NOT EXISTS crud_http;
 
-\c crudhibernate
-
-CREATE TABLE IF NOT EXISTS labels
+CREATE TABLE IF NOT EXISTS users
 (
-    id   SERIAL NOT NULL,
-    name VARCHAR(50) NOT NULL,
-    PRIMARY KEY (id)
+    id int(11) NOT NULL auto_increment,
+    name varchar(250)  NOT NULL,
+    PRIMARY KEY  (id)
 );
 
-CREATE TABLE IF NOT EXISTS posts
+CREATE TABLE IF NOT EXISTS events
 (
-    id      SERIAL NOT NULL,
-    name    VARCHAR(50) NOT NULL,
-    content VARCHAR(250),
-    PRIMARY KEY (id)
+    id int(11) NOT NULL auto_increment,
+    eventname varchar(250)  NOT NULL,
+    PRIMARY KEY  (id)
 );
 
-CREATE TABLE IF NOT EXISTS writers
+CREATE TABLE IF NOT EXISTS files
 (
-    id   SERIAL NOT NULL,
-    name VARCHAR(50) NOT NULL,
-    PRIMARY KEY (id)
+    id int(11) NOT NULL auto_increment,
+    filename varchar(250)  NOT NULL,
+    filelink varchar(1500)  NOT NULL,
+    PRIMARY KEY  (id)
 );
 
-CREATE TABLE IF NOT EXISTS labels_posts
+CREATE TABLE IF NOT EXISTS user_events
 (
-    label_id INT NOT NULL,
-    post_id  INT NOT NULL,
-    FOREIGN KEY (label_id) REFERENCES labels (id) ON DELETE CASCADE,
-    FOREIGN KEY (post_id) REFERENCES posts (id) ON DELETE CASCADE,
-    FOREIGN KEY (label_id) REFERENCES labels (id) ON UPDATE CASCADE,
-    FOREIGN KEY (post_id) REFERENCES posts (id) ON UPDATE CASCADE
-);
+    user_id INT NOT NULL,
+    event_id  INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+    FOREIGN KEY (event_id) REFERENCES events (id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE,
+    FOREIGN KEY (event_id) REFERENCES events (id) ON UPDATE CASCADE
+    );
 
-CREATE TABLE IF NOT EXISTS posts_writers
+CREATE TABLE IF NOT EXISTS event_files
 (
-    post_id   INT NOT NULL,
-    writer_id INT NOT NULL,
-    FOREIGN KEY (post_id) REFERENCES posts (id) ON DELETE CASCADE,
-    FOREIGN KEY (writer_id) REFERENCES writers (id) ON DELETE CASCADE,
-    FOREIGN KEY (post_id) REFERENCES posts (id) ON UPDATE CASCADE,
-    FOREIGN KEY (writer_id) REFERENCES writers (id) ON UPDATE CASCADE
-);
-
-
+    event_id   INT NOT NULL,
+    file_id INT NOT NULL,
+    FOREIGN KEY (event_id) REFERENCES events (id) ON DELETE CASCADE,
+    FOREIGN KEY (file_id) REFERENCES files (id) ON DELETE CASCADE,
+    FOREIGN KEY (event_id) REFERENCES events (id) ON UPDATE CASCADE,
+    FOREIGN KEY (file_id) REFERENCES files (id) ON UPDATE CASCADE
+    );

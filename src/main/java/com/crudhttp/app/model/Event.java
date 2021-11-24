@@ -1,5 +1,6 @@
 package com.crudhttp.app.model;
 
+
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
@@ -7,14 +8,15 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "users", schema = "public")
+@Table(name = "events", schema = "public")
 @Data
 @RequiredArgsConstructor
-public class User implements Serializable {
+public class Event implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column
-    private String name;
+    private String eventName;
+
 }
