@@ -53,11 +53,11 @@
                     <user>${database.username}</user>
                     <password>${database.password}</password>
                     <schemas>
-                        <schema>crudhibernate.public.labels</schema>
-                        <schema>crudhibernate.public.labels_posts</schema>
-                        <schema>crudhibernate.public.posts_writers</schema>
-                        <schema>crudhibernate.public.posts</schema>
-                        <schema>crudhibernate.public.writers</schema>
+                        <schema>crudhttp.public.events</schema>
+                        <schema>crudhttp.public.event_files</schema>
+                        <schema>crudhttp.public.files</schema>
+                        <schema>crudhttp.public.user_events</schema>
+                        <schema>crudhttp.public.users</schema>
                     </schemas>
                     <locations>
                         <location>./resources/db/migration</location>
@@ -125,7 +125,5 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <version>3.0.0-M5</version>
         </dependency>
-
-
     </dependencies>
 </project>

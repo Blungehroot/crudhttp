@@ -19,4 +19,11 @@ public class Event implements Serializable {
     @Column
     private String eventName;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinTable(name = "event_files",
+            joinColumns = { @JoinColumn(name = "event_id") },
+            inverseJoinColumns = { @JoinColumn(name = "file_id") }
+    )
+    private File file;
+
 }

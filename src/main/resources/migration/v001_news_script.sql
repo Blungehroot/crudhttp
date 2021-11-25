@@ -1,0 +1,5 @@
+CREATE TABLE news
+(
+    news_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    news_header   VARCHAR(20)
+);

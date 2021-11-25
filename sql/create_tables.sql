@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS user_events
     FOREIGN KEY (event_id) REFERENCES events (id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE,
     FOREIGN KEY (event_id) REFERENCES events (id) ON UPDATE CASCADE
-    );
+);
 
 CREATE TABLE IF NOT EXISTS event_files
 (
@@ -40,4 +40,4 @@ CREATE TABLE IF NOT EXISTS event_files
     FOREIGN KEY (file_id) REFERENCES files (id) ON DELETE CASCADE,
     FOREIGN KEY (event_id) REFERENCES events (id) ON UPDATE CASCADE,
     FOREIGN KEY (file_id) REFERENCES files (id) ON UPDATE CASCADE
-    );
+);
