@@ -3,13 +3,11 @@ package com.crudhttp.app.repository.impl;
 import com.crudhttp.app.model.User;
 import com.crudhttp.app.repository.UserRepository;
 import com.crudhttp.app.utils.HibernateUtil;
-import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import java.util.List;
 
-@RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
     private final SessionFactory sessionFactory;
     private static Session session;
