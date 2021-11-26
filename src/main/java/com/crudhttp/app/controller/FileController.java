@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
-@WebServlet(urlPatterns = "/file", name = "FileController")
+@WebServlet(urlPatterns = "/file")
 public class FileController extends HttpServlet {
     private static final int fileMaxSize = 100 * 1024;
     private static final int memMaxSize = 100 * 1024;
