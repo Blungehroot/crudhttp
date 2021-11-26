@@ -3,13 +3,15 @@ package com.crudhttp.app.service.impl;
 import com.crudhttp.app.model.File;
 import com.crudhttp.app.repository.impl.FileRepositoryImpl;
 import com.crudhttp.app.service.FileService;
-import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
-@RequiredArgsConstructor
 public class FileServiceImpl implements FileService {
     private final FileRepositoryImpl fileRepository;
+
+    public FileServiceImpl() {
+        fileRepository = new FileRepositoryImpl();
+    }
 
     @Override
     public File getById(int id) {
