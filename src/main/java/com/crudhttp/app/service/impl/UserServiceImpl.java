@@ -7,9 +7,12 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
-@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepositoryImpl userRepository;
+
+    public UserServiceImpl() {
+        userRepository = new UserRepositoryImpl();
+    }
 
     @Override
     public User getById(int id) {
