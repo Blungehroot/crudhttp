@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @WebServlet(urlPatterns = "/user")
 public class UserController extends HttpServlet {
@@ -18,9 +19,12 @@ public class UserController extends HttpServlet {
         userService = new UserServiceImpl();
     }
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        User user = new User();
-        user.setName(request.getParameter("name"));
-        userService.save(user);
+    public void doGet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        response.setContentType ("text/html");
+        PrintWriter out = response.getWriter ();
+        out.print ("<html><body>");
+        out.print ("<h3>Hello Servlet</h3>");
+        out.print ("</body></html>");
     }
 }
