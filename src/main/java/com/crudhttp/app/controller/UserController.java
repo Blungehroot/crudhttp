@@ -22,7 +22,6 @@ public class UserController extends HttpServlet {
 
     private void getById(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int userId = Integer.parseInt(req.getParameter("id"));
-        userService.getById(userId);
         resp.setContentType("application/json");
         resp.getWriter().write(om.writeValueAsString(userService.getById(userId)));
     }

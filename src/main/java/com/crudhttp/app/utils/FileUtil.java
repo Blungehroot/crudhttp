@@ -1,6 +1,5 @@
 package com.crudhttp.app.utils;
 
-import com.crudhttp.app.model.Media;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -17,7 +16,6 @@ public class FileUtil {
     private static File file;
 
     public static File saveFile(HttpServletRequest request) {
-        Media media = new Media();
         DiskFileItemFactory diskFileItemFactory = new DiskFileItemFactory();
         diskFileItemFactory.setRepository(new File(filePath));
         diskFileItemFactory.setSizeThreshold(memMaxSize);
@@ -43,8 +41,6 @@ public class FileUtil {
                                 fileName.substring(fileName.lastIndexOf("\\") + 1));
                     }
                     fileItem.write(file);
-                    media.setFileLink(file.getAbsolutePath());
-                    media.setFileName(file.getName());
                 }
             }
         } catch (Exception e) {

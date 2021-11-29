@@ -21,7 +21,7 @@ import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"/file"}, name="FileController")
+@WebServlet(urlPatterns = {"/file", "/file/get", "/file/get-all"}, name="FileController")
 @MultipartConfig
 public class FileController extends HttpServlet {
     private final MediaServiceImpl mediaService;
@@ -29,6 +29,17 @@ public class FileController extends HttpServlet {
 
     public FileController() {
         mediaService = new MediaServiceImpl();
+    }
+
+    private void getById(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int mediaId = Integer.parseInt(req.getParameter("id"));
+        resp.setContentType("application/json");
+        resp.getWriter().write(om.writeValueAsString(mediaService.getById(mediaId)));
+    }
+
+    private void getAll(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("application/json");
+        resp.getWriter().write(om.writeValueAsString(mediaService.getAll()));
     }
 
     @Override
@@ -41,5 +52,39 @@ public class FileController extends HttpServlet {
         mediaService.save(media);
         response.setContentType("application/json");
         response.getWriter().write(om.writeValueAsString(media));
+    }
+
+    @Override
+    public void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        mediaService.deleteById(mediaService.getById(id).getId());
+    }
+
+    @Override
+    public void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        File file = FileUtil.saveFile(request);
+        request.getParameter("file");
+        request.getParameter("id");
+        Media media = new Media();
+        media.setId(id);
+        media.setFileLink(file.getAbsolutePath());
+        media.setFileName(file.getName());
+        mediaService.update(media);
+        response.setContentType("application/json");
+        response.getWriter().write(om.writeValueAsString(media));
+    }
+
+    @Override
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String action = req.getServletPath();
+        switch (action) {
+            case "/file/get":
+                getById(req, resp);
+                break;
+            case "/file/get-all":
+                getAll(req, resp);
+                break;
+        }
     }
 }
