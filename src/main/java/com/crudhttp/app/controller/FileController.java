@@ -50,6 +50,7 @@ public class FileController extends HttpServlet {
         media.setFileLink(file.getAbsolutePath());
         media.setFileName(file.getName());
         mediaService.save(media);
+        response.setStatus(HttpServletResponse.SC_CREATED);
         response.setContentType("application/json");
         response.getWriter().write(om.writeValueAsString(media));
     }
