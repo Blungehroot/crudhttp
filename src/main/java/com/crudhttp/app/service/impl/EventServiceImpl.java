@@ -2,9 +2,7 @@ package com.crudhttp.app.service.impl;
 
 import com.crudhttp.app.model.Event;
 import com.crudhttp.app.repository.impl.EventRepositoryImpl;
-import com.crudhttp.app.repository.impl.FileRepositoryImpl;
 import com.crudhttp.app.service.EventService;
-import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 

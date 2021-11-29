@@ -1,59 +1,59 @@
 package com.crudhttp.app.repository.impl;
 
-import com.crudhttp.app.model.File;
-import com.crudhttp.app.repository.FileRepository;
+import com.crudhttp.app.model.Media;
+import com.crudhttp.app.repository.MediaRepository;
 import com.crudhttp.app.utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import java.util.List;
 
-public class FileRepositoryImpl implements FileRepository {
+public class MediaRepositoryImpl implements MediaRepository {
     private final SessionFactory sessionFactory;
     private static Session session;
 
-    public FileRepositoryImpl() {
+    public MediaRepositoryImpl() {
         sessionFactory = HibernateUtil.createSessionFactory();
     }
 
     @Override
-    public File getById(Integer id) {
+    public Media getById(Integer id) {
         session = sessionFactory.openSession();
-        return session.get(File.class, id);
+        return session.get(Media.class, id);
     }
 
     @Override
-    public List<File> getAll() {
+    public List<Media> getAll() {
         session = sessionFactory.openSession();
-        return session.createQuery("from File").getResultList();
+        return session.createQuery("from Media").getResultList();
     }
 
     @Override
-    public File save(File file) {
+    public Media save(Media media) {
         session = sessionFactory.openSession();
         session.beginTransaction();
-        session.save(file);
+        session.save(media);
         session.getTransaction().commit();
         session.close();
-        return file;
+        return media;
     }
 
     @Override
-    public File update(File file) {
+    public Media update(Media media) {
         session = sessionFactory.openSession();
         session.beginTransaction();
-        session.update(file);
+        session.update(media);
         session.getTransaction().commit();
         session.close();
-        return file;
+        return media;
     }
 
     @Override
     public void deleteById(Integer id) {
         session = sessionFactory.openSession();
         session.beginTransaction();
-        File file = session.get(File.class, id);
-        session.delete(file);
+        Media media = session.get(Media.class, id);
+        session.delete(media);
         session.getTransaction().commit();
     }
 }

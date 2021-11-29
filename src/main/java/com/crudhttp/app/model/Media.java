@@ -7,10 +7,10 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "files", schema = "public")
+@Table(name = "media", schema = "public")
 @Data
 @RequiredArgsConstructor
-public class File implements Serializable {
+public class Media implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

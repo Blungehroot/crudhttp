@@ -20,10 +20,10 @@ public class Event implements Serializable {
     private String eventName;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinTable(name = "event_files",
+    @JoinTable(name = "event_medias",
             joinColumns = { @JoinColumn(name = "event_id") },
             inverseJoinColumns = { @JoinColumn(name = "file_id") }
     )
-    private File file;
+    private Media media;
 
 }

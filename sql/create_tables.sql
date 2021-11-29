@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS events
     PRIMARY KEY  (id)
 );
 
-CREATE TABLE IF NOT EXISTS files
+CREATE TABLE IF NOT EXISTS media
 (
     id int(11) NOT NULL auto_increment,
     filename varchar(250)  NOT NULL,
@@ -32,12 +32,12 @@ CREATE TABLE IF NOT EXISTS user_events
     FOREIGN KEY (event_id) REFERENCES events (id) ON UPDATE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS event_files
+CREATE TABLE IF NOT EXISTS event_medias
 (
     event_id   INT NOT NULL,
     file_id INT NOT NULL,
     FOREIGN KEY (event_id) REFERENCES events (id) ON DELETE CASCADE,
-    FOREIGN KEY (file_id) REFERENCES files (id) ON DELETE CASCADE,
+    FOREIGN KEY (file_id) REFERENCES media (id) ON DELETE CASCADE,
     FOREIGN KEY (event_id) REFERENCES events (id) ON UPDATE CASCADE,
-    FOREIGN KEY (file_id) REFERENCES files (id) ON UPDATE CASCADE
+    FOREIGN KEY (file_id) REFERENCES media (id) ON UPDATE CASCADE
 );

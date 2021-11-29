@@ -52,7 +52,7 @@ public class EventRepositoryImpl implements EventRepository {
         session = sessionFactory.openSession();
         session.beginTransaction();
         Event event = session.get(Event.class, id);
-        event.setFile(null);
+        event.setMedia(null);
         session.delete(event);
         session.getTransaction().commit();
     }
