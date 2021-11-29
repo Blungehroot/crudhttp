@@ -1,6 +1,8 @@
 package com.crudhttp.app.controller;
 
+import com.crudhttp.app.model.Event;
 import com.crudhttp.app.model.User;
+import com.crudhttp.app.service.impl.EventServiceImpl;
 import com.crudhttp.app.service.impl.UserServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -10,14 +12,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet(urlPatterns = {"/users", "/users/get", "/users/get-all"}, name = "UserController")
 public class UserController extends HttpServlet {
     private final UserServiceImpl userService;
+    private final EventServiceImpl eventService;
     private static ObjectMapper om = new ObjectMapper();
 
     public UserController() {
         userService = new UserServiceImpl();
+        eventService = new EventServiceImpl();
     }
 
     private void getById(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -31,10 +37,24 @@ public class UserController extends HttpServlet {
         resp.getWriter().write(om.writeValueAsString(userService.getAll()));
     }
 
+    private List<Event> linkEvents(String ids) {
+        String paramsIds = ids.replace(",", "");
+        String[] idList = paramsIds.split(" ");
+        Event event;
+        List<Event> events = new ArrayList<>();
+        for (int i = 0; i < idList.length; i++) {
+            event = eventService.getById(Integer.parseInt(idList[i]));
+            events.add(event);
+        }
+        return events;
+    }
+
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String userName = req.getParameter("name");
         User user = new User();
+        String userName = req.getParameter("name");
+        String eventIds = req.getParameter("eventids");
         user.setName(userName);
+        user.setEvents(linkEvents(eventIds));
         userService.save(user);
         resp.setStatus(HttpServletResponse.SC_CREATED);
         resp.setContentType("application/json");
@@ -49,9 +69,15 @@ public class UserController extends HttpServlet {
 
     @Override
     public void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        User user = new User();
         int userId = Integer.parseInt(req.getParameter("id"));
         String userName = req.getParameter("name");
-        User user = new User();
+        if (req.getParameter("eventids").equals("null")) {
+            user.setEvents(null);
+        } else {
+            String eventIds = req.getParameter("eventids");
+            user.setEvents(linkEvents(eventIds));
+        }
         user.setId(userId);
         user.setName(userName);
         userService.update(user);
