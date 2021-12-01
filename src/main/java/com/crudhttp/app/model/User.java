@@ -21,7 +21,7 @@ public class User implements Serializable {
     @Column
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Event> events;
 }

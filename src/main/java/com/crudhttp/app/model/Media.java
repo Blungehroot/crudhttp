@@ -22,7 +22,8 @@ public class Media implements Serializable {
     @Column
     private String fileLink;
 
-    @OneToOne(mappedBy = "media")
+    @OneToOne(mappedBy = "media", cascade = CascadeType.ALL)
+    @JoinColumn(name = "event_id")
     @JsonManagedReference
     private Event event;
 }

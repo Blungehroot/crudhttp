@@ -59,13 +59,14 @@ public class MediaController extends HttpServlet {
         request.getParameter("file");
         String userId = request.getHeader("user_id");
         User user = userService.getById(Integer.parseInt(userId));
-        media.setFileLink(file.getAbsolutePath());
-        media.setFileName(file.getName());
-        mediaService.save(media);
         event.setEventName("Upload");
         event.setMedia(media);
         event.setUser(user);
+        media.setFileLink(file.getAbsolutePath());
+        media.setFileName(file.getName());
+        media.setEvent(event);
         eventService.save(event);
+        mediaService.save(media);
         response.setStatus(HttpServletResponse.SC_CREATED);
         response.setContentType("application/json");
         response.getWriter().write(om.writeValueAsString(media));
