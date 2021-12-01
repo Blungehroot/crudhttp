@@ -1,6 +1,7 @@
 package com.crudhttp.app.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
@@ -8,7 +9,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "events", schema = "public")
+@Table(name = "events")
 @Data
 @RequiredArgsConstructor
 public class Event implements Serializable {
@@ -20,10 +21,12 @@ public class Event implements Serializable {
     private String eventName;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinTable(name = "event_medias",
-            joinColumns = { @JoinColumn(name = "event_id") },
-            inverseJoinColumns = { @JoinColumn(name = "file_id") }
-    )
+    @JoinColumn(name = "media_id")
+    @JsonBackReference
     private Media media;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonBackReference
+    private User user;
 }

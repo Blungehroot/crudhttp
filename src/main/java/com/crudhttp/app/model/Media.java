@@ -1,5 +1,6 @@
 package com.crudhttp.app.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
@@ -7,7 +8,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "media", schema = "public")
+@Table(name = "media")
 @Data
 @RequiredArgsConstructor
 public class Media implements Serializable {
@@ -20,4 +21,8 @@ public class Media implements Serializable {
 
     @Column
     private String fileLink;
+
+    @OneToOne(mappedBy = "media")
+    @JsonManagedReference
+    private Event event;
 }

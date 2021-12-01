@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"/users", "/users/get", "/users/get-all"}, name = "UserController")
+@WebServlet(urlPatterns = {"/api/v1/users", "/api/v1/users/get", "/api/v1/users/get-all"}, name = "UserController")
 public class UserController extends HttpServlet {
     private final UserServiceImpl userService;
     private final EventServiceImpl eventService;
@@ -52,9 +52,7 @@ public class UserController extends HttpServlet {
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = new User();
         String userName = req.getParameter("name");
-        String eventIds = req.getParameter("eventids");
         user.setName(userName);
-        user.setEvents(linkEvents(eventIds));
         userService.save(user);
         resp.setStatus(HttpServletResponse.SC_CREATED);
         resp.setContentType("application/json");
@@ -89,10 +87,10 @@ public class UserController extends HttpServlet {
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getServletPath();
         switch (action) {
-            case "/users/get":
+            case "/api/v1/users/get":
                 getById(req, resp);
                 break;
-            case "/users/get-all":
+            case "/api/v1/users/get-all":
                 getAll(req, resp);
                 break;
         }

@@ -1,8 +1,12 @@
 package com.crudhttp.app.controller;
 
+import com.crudhttp.app.model.Event;
 import com.crudhttp.app.model.Media;
+import com.crudhttp.app.model.User;
 import com.crudhttp.app.service.MediaService;
+import com.crudhttp.app.service.impl.EventServiceImpl;
 import com.crudhttp.app.service.impl.MediaServiceImpl;
+import com.crudhttp.app.service.impl.UserServiceImpl;
 import com.crudhttp.app.utils.FileUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.fileupload.FileItem;
@@ -18,17 +22,22 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"/file", "/file/get", "/file/get-all"}, name="FileController")
+@WebServlet(urlPatterns = {"/api/v1/media", "/api/v1/media/get", "/api/v1/media/get-all"}, name="MediaController")
 @MultipartConfig
-public class FileController extends HttpServlet {
+public class MediaController extends HttpServlet {
     private final MediaServiceImpl mediaService;
+    private final EventServiceImpl eventService;
+    private final UserServiceImpl userService;
     private static ObjectMapper om = new ObjectMapper();
 
-    public FileController() {
+    public MediaController() {
         mediaService = new MediaServiceImpl();
+        eventService = new EventServiceImpl();
+        userService = new UserServiceImpl();
     }
 
     private void getById(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -44,12 +53,19 @@ public class FileController extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Media media = new Media();
+        Event event = new Event();
         File file = FileUtil.saveFile(request);
         request.getParameter("file");
-        Media media = new Media();
+        String userId = request.getHeader("user_id");
+        User user = userService.getById(Integer.parseInt(userId));
         media.setFileLink(file.getAbsolutePath());
         media.setFileName(file.getName());
         mediaService.save(media);
+        event.setEventName("Upload");
+        event.setMedia(media);
+        event.setUser(user);
+        eventService.save(event);
         response.setStatus(HttpServletResponse.SC_CREATED);
         response.setContentType("application/json");
         response.getWriter().write(om.writeValueAsString(media));
@@ -80,10 +96,10 @@ public class FileController extends HttpServlet {
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getServletPath();
         switch (action) {
-            case "/file/get":
+            case "/api/v1/media/get":
                 getById(req, resp);
                 break;
-            case "/file/get-all":
+            case "/api/v1/media/get-all":
                 getAll(req, resp);
                 break;
         }

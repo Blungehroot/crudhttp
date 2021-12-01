@@ -9,23 +9,31 @@ import org.hibernate.SessionFactory;
 import java.util.List;
 
 public class MediaRepositoryImpl implements MediaRepository {
-    private final SessionFactory sessionFactory;
+    private static SessionFactory sessionFactory;
     private static Session session;
 
     public MediaRepositoryImpl() {
-        sessionFactory = HibernateUtil.createSessionFactory();
+        sessionFactory = HibernateUtil.getSessionFactory();
     }
 
     @Override
     public Media getById(Integer id) {
         session = sessionFactory.openSession();
-        return session.get(Media.class, id);
+        session.beginTransaction();
+        Media media = session.get(Media.class, id);
+        session.getTransaction().commit();
+        session.close();
+        return media;
     }
 
     @Override
     public List<Media> getAll() {
         session = sessionFactory.openSession();
-        return session.createQuery("from Media").getResultList();
+        session.beginTransaction();
+        List<Media> medias = session.createQuery("from Media").getResultList();
+        session.getTransaction().commit();
+        session.close();
+        return medias;
     }
 
     @Override
@@ -55,5 +63,6 @@ public class MediaRepositoryImpl implements MediaRepository {
         Media media = session.get(Media.class, id);
         session.delete(media);
         session.getTransaction().commit();
+        session.close();
     }
 }

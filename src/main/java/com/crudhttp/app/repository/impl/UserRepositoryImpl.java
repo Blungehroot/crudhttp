@@ -9,23 +9,29 @@ import org.hibernate.SessionFactory;
 import java.util.List;
 
 public class UserRepositoryImpl implements UserRepository {
-    private final SessionFactory sessionFactory;
+    private static SessionFactory sessionFactory;
     private static Session session;
 
     public UserRepositoryImpl() {
-        sessionFactory = HibernateUtil.createSessionFactory();
+        sessionFactory = HibernateUtil.getSessionFactory();
     }
 
     @Override
     public User getById(Integer id) {
         session = sessionFactory.openSession();
-        return session.get(User.class, id);
+        session.beginTransaction();
+        User user = session.get(User.class, id);
+        session.getTransaction().commit();
+        return user;
     }
 
     @Override
     public List<User> getAll() {
         session = sessionFactory.openSession();
-        return session.createQuery("from User").getResultList();
+        session.beginTransaction();
+        List<User> users = session.createQuery("from User").getResultList();
+        session.getTransaction().commit();
+        return users;
     }
 
     @Override
@@ -34,7 +40,6 @@ public class UserRepositoryImpl implements UserRepository {
         session.beginTransaction();
         session.save(user);
         session.getTransaction().commit();
-        session.close();
         return user;
     }
 
@@ -44,7 +49,6 @@ public class UserRepositoryImpl implements UserRepository {
         session.beginTransaction();
         session.update(user);
         session.getTransaction().commit();
-        session.close();
         return user;
     }
 

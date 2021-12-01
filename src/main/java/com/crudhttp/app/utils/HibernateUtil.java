@@ -11,14 +11,16 @@ import org.hibernate.service.ServiceRegistry;
 public class HibernateUtil {
     private static final SessionFactory sessionFactory = createSessionFactory();
 
+    private HibernateUtil() {}
+
     public static SessionFactory createSessionFactory() {
         try {
             Configuration configuration = new Configuration();
-                    ;
+            ;
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
-            configuration.addAnnotatedClass(Event.class);
-            configuration.addAnnotatedClass(Media.class);
             configuration.addAnnotatedClass(User.class);
+            configuration.addAnnotatedClass(Media.class);
+            configuration.addAnnotatedClass(Event.class);
             return configuration.buildSessionFactory(serviceRegistry);
         } catch (Exception ex) {
             System.err.println("Initial SessionFactory creation failed." + ex);

@@ -9,22 +9,30 @@ import org.hibernate.SessionFactory;
 import java.util.List;
 
 public class EventRepositoryImpl implements EventRepository {
-    private final SessionFactory sessionFactory;
+    private static SessionFactory sessionFactory;
     private static Session session;
 
     public EventRepositoryImpl() {
-        sessionFactory = HibernateUtil.createSessionFactory();
+        sessionFactory = HibernateUtil.getSessionFactory();
     }
     @Override
     public Event getById(Integer id) {
         session = sessionFactory.openSession();
-        return session.get(Event.class, id);
+        session.beginTransaction();
+        Event event = session.get(Event.class, id);
+        session.getTransaction().commit();
+        session.close();
+        return event;
     }
 
     @Override
     public List<Event> getAll() {
         session = sessionFactory.openSession();
-        return session.createQuery("from Event").getResultList();
+        session.beginTransaction();
+        List<Event> events = session.createQuery("from Event").getResultList();
+        session.getTransaction().commit();
+        session.close();
+        return events;
     }
 
     @Override
@@ -55,5 +63,6 @@ public class EventRepositoryImpl implements EventRepository {
         event.setMedia(null);
         session.delete(event);
         session.getTransaction().commit();
+        session.close();
     }
 }

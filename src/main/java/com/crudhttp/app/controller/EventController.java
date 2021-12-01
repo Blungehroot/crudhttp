@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = {"/events", "/events/get", "/events/get-all"}, name = "EventController")
+@WebServlet(urlPatterns = {"/api/v1/events", "/api/v1/events/get", "/api/v1/events/get-all"}, name = "EventController")
 public class EventController extends HttpServlet {
     private final EventServiceImpl eventService;
     private final MediaServiceImpl mediaService;
@@ -32,19 +32,6 @@ public class EventController extends HttpServlet {
     private void getAll(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
         resp.getWriter().write(om.writeValueAsString(eventService.getAll()));
-    }
-
-    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Event event = new Event();
-        String eventName = req.getParameter("eventname");
-        int mediaId = Integer.parseInt(req.getParameter("mediaid"));
-        mediaService.getById(mediaId);
-        event.setEventName(eventName);
-        event.setMedia(mediaService.getById(mediaId));
-        eventService.save(event);
-        resp.setStatus(HttpServletResponse.SC_CREATED);
-        resp.setContentType("application/json");
-        resp.getWriter().write(om.writeValueAsString(event));
     }
 
     @Override
@@ -75,10 +62,10 @@ public class EventController extends HttpServlet {
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getServletPath();
         switch (action) {
-            case "/events/get":
+            case "/api/v1/events/get":
                 getById(req, resp);
                 break;
-            case "/events/get-all":
+            case "/api/v1/events/get-all":
                 getAll(req, resp);
                 break;
         }
