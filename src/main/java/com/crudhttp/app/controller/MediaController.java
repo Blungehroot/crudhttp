@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"/api/v1/media", "/api/v1/media/get", "/api/v1/media/get-all"}, name="MediaController")
+@WebServlet(urlPatterns = {"/api/v1/media"}, name="MediaController")
 @MultipartConfig
 public class MediaController extends HttpServlet {
     private final MediaServiceImpl mediaService;
@@ -80,14 +80,21 @@ public class MediaController extends HttpServlet {
 
     @Override
     public void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Media media = new Media();
+        Event event;
         int id = Integer.parseInt(request.getParameter("id"));
         File file = FileUtil.saveFile(request);
-        request.getParameter("file");
-        request.getParameter("id");
-        Media media = new Media();
+        String userId = request.getHeader("user_id");
+        User user = userService.getById(Integer.parseInt(userId));
+        event = eventService.getById(Integer.parseInt(request.getParameter("event_id")));
+        event.setEventName("Update");
+        event.setMedia(media);
+        event.setUser(user);
+        media.setEvent(event);
         media.setId(id);
         media.setFileLink(file.getAbsolutePath());
         media.setFileName(file.getName());
+        eventService.update(event);
         mediaService.update(media);
         response.setContentType("application/json");
         response.getWriter().write(om.writeValueAsString(media));
@@ -95,14 +102,10 @@ public class MediaController extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String action = req.getServletPath();
-        switch (action) {
-            case "/api/v1/media/get":
-                getById(req, resp);
-                break;
-            case "/api/v1/media/get-all":
-                getAll(req, resp);
-                break;
+        if (req.getQueryString() == null) {
+            getAll(req, resp);
+        } else {
+            getById(req, resp);
         }
     }
 }

@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"/api/v1/users", "/api/v1/users/get", "/api/v1/users/get-all"}, name = "UserController")
+@WebServlet(urlPatterns = {"/api/v1/users"}, name = "UserController")
 public class UserController extends HttpServlet {
     private final UserServiceImpl userService;
     private final EventServiceImpl eventService;
@@ -85,14 +85,10 @@ public class UserController extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String action = req.getServletPath();
-        switch (action) {
-            case "/api/v1/users/get":
-                getById(req, resp);
-                break;
-            case "/api/v1/users/get-all":
-                getAll(req, resp);
-                break;
+        if (req.getQueryString() == null) {
+            getAll(req, resp);
+        } else {
+            getById(req, resp);
         }
     }
 }

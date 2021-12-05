@@ -21,7 +21,6 @@ public class Event implements Serializable {
     private String eventName;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "media_id")
     @JsonBackReference
     private Media media;
 

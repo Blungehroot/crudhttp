@@ -6,6 +6,7 @@ import com.crudhttp.app.utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 public class EventRepositoryImpl implements EventRepository {
@@ -15,47 +16,45 @@ public class EventRepositoryImpl implements EventRepository {
     public EventRepositoryImpl() {
         sessionFactory = HibernateUtil.getSessionFactory();
     }
+
     @Override
+    @Transactional
     public Event getById(Integer id) {
         session = sessionFactory.openSession();
-        session.beginTransaction();
         Event event = session.get(Event.class, id);
-        session.getTransaction().commit();
         session.close();
         return event;
     }
 
     @Override
+    @Transactional
     public List<Event> getAll() {
         session = sessionFactory.openSession();
-        session.beginTransaction();
         List<Event> events = session.createQuery("from Event").getResultList();
-        session.getTransaction().commit();
         session.close();
         return events;
     }
 
     @Override
+    @Transactional
     public Event save(Event event) {
         session = sessionFactory.openSession();
-        session.beginTransaction();
         session.save(event);
-        session.getTransaction().commit();
         session.close();
         return event;
     }
 
     @Override
+    @Transactional
     public Event update(Event event) {
         session = sessionFactory.openSession();
-        session.beginTransaction();
         session.update(event);
-        session.getTransaction().commit();
         session.close();
         return event;
     }
 
     @Override
+    @Transactional
     public void deleteById(Integer id) {
         session = sessionFactory.openSession();
         session.beginTransaction();

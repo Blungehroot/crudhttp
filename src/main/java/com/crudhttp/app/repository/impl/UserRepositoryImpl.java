@@ -6,6 +6,7 @@ import com.crudhttp.app.utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 public class UserRepositoryImpl implements UserRepository {
@@ -17,42 +18,43 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    @Transactional
     public User getById(Integer id) {
         session = sessionFactory.openSession();
-        session.beginTransaction();
         User user = session.get(User.class, id);
-        session.getTransaction().commit();
+        session.close();
         return user;
     }
 
     @Override
+    @Transactional
     public List<User> getAll() {
         session = sessionFactory.openSession();
-        session.beginTransaction();
         List<User> users = session.createQuery("from User").getResultList();
-        session.getTransaction().commit();
+        session.close();
         return users;
     }
 
     @Override
+    @Transactional
     public User save(User user) {
         session = sessionFactory.openSession();
-        session.beginTransaction();
         session.save(user);
-        session.getTransaction().commit();
+        session.close();
         return user;
     }
 
     @Override
+    @Transactional
     public User update(User user) {
         session = sessionFactory.openSession();
-        session.beginTransaction();
         session.update(user);
-        session.getTransaction().commit();
+        session.close();
         return user;
     }
 
     @Override
+    @Transactional
     public void deleteById(Integer id) {
         session = sessionFactory.openSession();
         session.beginTransaction();
@@ -60,5 +62,6 @@ public class UserRepositoryImpl implements UserRepository {
         user.setEvents(null);
         session.delete(user);
         session.getTransaction().commit();
+        session.close();
     }
 }
