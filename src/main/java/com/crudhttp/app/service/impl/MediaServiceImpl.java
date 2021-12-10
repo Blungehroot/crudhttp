@@ -13,6 +13,10 @@ public class MediaServiceImpl implements MediaService {
         mediaRepository = new MediaRepositoryImpl();
     }
 
+    public MediaServiceImpl(MediaRepositoryImpl mediaRepository) {
+        this.mediaRepository = mediaRepository;
+    }
+
     @Override
     public Media getById(int id) {
         return mediaRepository.getById(id);
