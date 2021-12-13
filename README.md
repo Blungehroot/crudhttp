@@ -1,1 +1,1 @@
-# [![Build Status](https://app.travis-ci.com/Blungehroot/crudhttp.svg?branch=main)](https://app.travis-ci.com/Blungehroot/crudhttp)
+[![Build Status](https://app.travis-ci.com/Blungehroot/crudhttp.svg?branch=main)](https://app.travis-ci.com/Blungehroot/crudhttp)
