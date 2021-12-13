@@ -13,6 +13,10 @@ public class EventServiceImpl implements EventService {
         eventRepository = new EventRepositoryImpl();
     }
 
+    public EventServiceImpl(EventRepositoryImpl eventRepository) {
+        this.eventRepository = eventRepository;
+    }
+
     @Override
     public Event getById(int id) {
         return eventRepository.getById(id);
