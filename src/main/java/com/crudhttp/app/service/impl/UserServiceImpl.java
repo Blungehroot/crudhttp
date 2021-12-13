@@ -3,7 +3,6 @@ package com.crudhttp.app.service.impl;
 import com.crudhttp.app.model.User;
 import com.crudhttp.app.repository.impl.UserRepositoryImpl;
 import com.crudhttp.app.service.UserService;
-import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
@@ -12,6 +11,10 @@ public class UserServiceImpl implements UserService {
 
     public UserServiceImpl() {
         userRepository = new UserRepositoryImpl();
+    }
+
+    public UserServiceImpl(UserRepositoryImpl userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
