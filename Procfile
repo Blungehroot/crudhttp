@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -cp target/classes:target/dependency/* com.crudhttp.app
+web: java -jar target/crudhttp-1.0-SNAPSHOT.war
