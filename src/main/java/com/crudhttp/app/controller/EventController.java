@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = {"https://crudhttp.herokuapp.com/api/v1/events"}, name = "EventController")
+@WebServlet(urlPatterns = {"/api/v1/events"}, name = "EventController")
 public class EventController extends HttpServlet {
     private final EventServiceImpl eventService;
     private static final ObjectMapper om = new ObjectMapper();

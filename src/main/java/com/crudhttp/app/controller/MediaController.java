@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"https://crudhttp.herokuapp.com/api/v1/media"}, name="MediaController")
+@WebServlet(urlPatterns = {"/api/v1/media"}, name="MediaController")
 @MultipartConfig
 public class MediaController extends HttpServlet {
     private final MediaServiceImpl mediaService;

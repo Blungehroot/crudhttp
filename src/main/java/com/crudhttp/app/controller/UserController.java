@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"https://crudhttp.herokuapp.com/api/v1/users"}, name = "UserController")
+@WebServlet(urlPatterns = {"/api/v1/users"}, name = "UserController")
 public class UserController extends HttpServlet {
     private final UserServiceImpl userService;
     private final EventServiceImpl eventService;
