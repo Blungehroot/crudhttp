@@ -23,13 +23,13 @@ public class HibernateUtil {
             String password = dbUri.getUserInfo().split(":")[1];
             String dbUrl = "jdbc:mysql://" + dbUri.getHost() + dbUri.getPath();
             Configuration configuration = new Configuration();
-            ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
             configuration.setProperty("hibernate.connection.url", dbUrl);
             configuration.setProperty("hibernate.connection.username", username);
             configuration.setProperty("hibernate.connection.password", password);
             configuration.addAnnotatedClass(User.class);
             configuration.addAnnotatedClass(Media.class);
             configuration.addAnnotatedClass(Event.class);
+            ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
             return configuration.buildSessionFactory(serviceRegistry);
         } catch (Exception ex) {
             System.err.println("Initial SessionFactory creation failed." + ex);
