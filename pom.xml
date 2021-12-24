@@ -16,7 +16,7 @@
         <maven.war.plugin>3.2.2</maven.war.plugin>
         <junit.version>5.5.2</junit.version>
         <mockito.core>4.0.0</mockito.core>
-        <flyway.version>8.0.4</flyway.version>
+        <flyway.version>5.2.4</flyway.version>
         <mysql.version>8.0.26</mysql.version>
         <hibernate.verion>5.6.1.Final</hibernate.verion>
         <servlet.version>4.0.1</servlet.version>
