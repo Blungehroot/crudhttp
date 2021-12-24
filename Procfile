@@ -1,1 +1,1 @@
-web: java -jar target/crudhttp-1.0-SNAPSHOT.war
+web: java $JAVA_OPTS -jar target/dependency/webapp-runner.jar --port $PORT target/crudhttp-1.0-SNAPSHOT.war
