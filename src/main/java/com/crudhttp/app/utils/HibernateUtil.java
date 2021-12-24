@@ -10,6 +10,7 @@ import org.hibernate.service.ServiceRegistry;
 
 import java.net.URI;
 
+
 public class HibernateUtil {
     private static final SessionFactory sessionFactory = createSessionFactory();
 
@@ -21,11 +22,6 @@ public class HibernateUtil {
             String username = dbUri.getUserInfo().split(":")[0];
             String password = dbUri.getUserInfo().split(":")[1];
             String dbUrl = "jdbc:mysql://" + dbUri.getHost() + dbUri.getPath();
-            System.out.println("=============================================");
-            System.out.println(dbUrl);
-            System.out.println(username);
-            System.out.println(password);
-            System.out.println("=============================================");
             Configuration configuration = new Configuration();
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
             configuration.setProperty("hibernate.connection.url", dbUrl);

@@ -26,9 +26,6 @@
         <jstl.version>1.2</jstl.version>
         <mvn.surfire.version>3.0.0-M5</mvn.surfire.version>
         <database.driver>com.mysql.cj.jdbc.Driver</database.driver>
-        <database.url>jdbc:mysql://localhost:3308/crud_http</database.url>
-        <database.username>root</database.username>
-        <database.password>root</database.password>
     </properties>
 
     <build>
@@ -96,21 +93,14 @@
                 <version>${flyway.version}</version>
                 <configuration>
                     <driver>${database.driver}</driver>
-                    <url>${database.url}</url>
-                    <user>${database.username}</user>
-                    <password>${database.password}</password>
-                    <schemas>
-                        <schema>crudhttp.public.events</schema>
-                        <schema>crudhttp.public.event_files</schema>
-                        <schema>crudhttp.public.files</schema>
-                        <schema>crudhttp.public.user_events</schema>
-                        <schema>crudhttp.public.users</schema>
-                    </schemas>
+                    <url>${env.DB}</url>
+                    <user>${env.USERNAME}</user>
+                    <password>${env.PASSWORD}</password>
                     <locations>
                         <location>./resources/db/migration</location>
                     </locations>
                 </configuration>
-                <!--<executions>
+                <executions>
                     <execution>
                         <id>flyway database migration</id>
                         <phase>pre-integration-test</phase>
@@ -121,7 +111,7 @@
                             <goal>info</goal>
                         </goals>
                     </execution>
-                </executions>-->
+                </executions>
             </plugin>
         </plugins>
     </build>
