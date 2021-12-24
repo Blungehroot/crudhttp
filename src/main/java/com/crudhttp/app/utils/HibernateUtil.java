@@ -8,6 +8,8 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
+import java.net.URI;
+
 public class HibernateUtil {
     private static final SessionFactory sessionFactory = createSessionFactory();
 
@@ -15,9 +17,15 @@ public class HibernateUtil {
 
     public static SessionFactory createSessionFactory() {
         try {
+            URI dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
+            String username = dbUri.getUserInfo().split(":")[0];
+            String password = dbUri.getUserInfo().split(":")[1];
+            String dbUrl = "jdbc:mysql://" + dbUri.getHost() + dbUri.getPath();
             Configuration configuration = new Configuration();
-            ;
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
+            configuration.setProperty("hibernate.connection.url", dbUrl);
+            configuration.setProperty("hibernate.connection.username", username);
+            configuration.setProperty("hibernate.connection.password", password);
             configuration.addAnnotatedClass(User.class);
             configuration.addAnnotatedClass(Media.class);
             configuration.addAnnotatedClass(Event.class);
