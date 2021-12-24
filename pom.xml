@@ -97,7 +97,7 @@
                     <user>${env.USERNAME}</user>
                     <password>${env.PASSWORD}</password>
                     <locations>
-                        <location>./resources/db/migration</location>
+                        <location>./resources/migration</location>
                     </locations>
                 </configuration>
                 <executions>
